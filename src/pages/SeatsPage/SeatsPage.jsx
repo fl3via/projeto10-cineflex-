@@ -2,6 +2,21 @@ import styled from "styled-components"
 
 export default function SeatsPage() {
 
+    useEffect(() => {
+        const urlFilmes = 'https://mock-api.driven.com.br/api/v8/cineflex/movies'
+        const promise = axios.get(urlFilmes)
+
+        promise.then((res) => {
+            setFilmes(res.data)
+            console.log(res.data)
+        })
+        promise.catch((err) => {
+            console.log(err.res.data)
+
+        })
+    }, [])
+
+
     return (
         <PageContainer>
             Selecione o(s) assento(s)

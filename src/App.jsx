@@ -3,16 +3,38 @@ import HomePage from "./pages/HomePage/HomePage"
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
+import { useEffect } from "react"
+import { useState } from "react"
+import axios from 'axios';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
 
 export default function App() {
+    axios.defaults.headers.common['Authorization'] = 'OfGSkO23s0u6UIaFW8pow685';
+
+
+    const urlAssentos = 'https://mock-api.driven.com.br/api/v8/cineflex/showtimes/ID_DA_SESSAO/seats'
+
+
+
     return (
         <>
-           <NavContainer>CINEFLEX</NavContainer>
+            <BrowserRouter>
+                <NavContainer>CINEFLEX</NavContainer>
 
-            <HomePage />
-            {/* <SeatsPage /> */}
-            {/* <SessionsPage /> */}
-            {/* <SuccessPage /> */}
+               
+                <Routes>
+                    <Route path="/" element={ <HomePage />} />
+                    <Route path="/assentos/:idSessao" element= { <SeatsPage /> } />
+                    <Route path="/sessoes/:idFilme" element= { <SessionsPage /> } />
+                    <Route path="/sucesso" element={<SuccessPage />} />
+                   
+                   
+                 
+                </Routes>
+
+            </BrowserRouter>
         </>
     )
 }
