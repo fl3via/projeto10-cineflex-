@@ -2,6 +2,7 @@ import styled from "styled-components"
 import axios from 'axios';
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 
 export default function HomePage() {
@@ -22,20 +23,29 @@ export default function HomePage() {
         })
     }, [])
 
+    if (filmes === undefined) {
+        return <div>Carregando..</div>
+    }
+
     return (
         <PageContainer>
             Selecione o filme
 
             <ListContainer>
                 {filmes.map((f) => (
-                    <MovieContainer key={f.id}>
-                        <img src={f.posterURL} alt={f.title} />
+                    <MovieContainer key={f.id} data-test="movie">
+                        <Link to={`/sessoes/${f.id}`}>
+                            <img src={f.posterURL} alt={f.title} />
+                        </Link>
+
                     </MovieContainer>
                 ))}
 
-</ListContainer>
+            </ListContainer>
 
         </PageContainer>
+
+
     )
 }
 

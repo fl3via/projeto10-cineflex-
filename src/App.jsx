@@ -7,6 +7,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import axios from 'axios';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 
 
@@ -21,7 +22,12 @@ export default function App() {
     return (
         <>
             <BrowserRouter>
-                <NavContainer>CINEFLEX</NavContainer>
+                <NavContainer>
+                    <Link to="/">
+                    CINEFLEX
+                    </Link>
+                    
+                   </NavContainer>
 
                
                 <Routes>
