@@ -1,14 +1,21 @@
 import styled from "styled-components"
 import axios from 'axios'
+import { useParams } from "react-router-dom"
+import { useState } from "react"
+import { useEffect } from "react"
 
 export default function SeatsPage() {
+    const [assentos, setAssentos] = useState(undefined)
+    const { idSessao } = useParams()
 
     useEffect(() => {
-        const urlFilmes = 'https://mock-api.driven.com.br/api/v8/cineflex/movies'
-        const promise = axios.get(urlFilmes)
+
+        const urlAssentos = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
+
+        const promise = axios.get(urlAssentos)
 
         promise.then((res) => {
-            setFilmes(res.data)
+            setAssentos(res.data)
             console.log(res.data)
         })
         promise.catch((err) => {
@@ -17,17 +24,18 @@ export default function SeatsPage() {
         })
     }, [])
 
+    if (assentos === undefined) {
+        return <div>Carregando</div>
+    }
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {assentos.seats.map((a) => (
+                    <SeatItem key={a.id}>{a.name}</SeatItem>
+                ))}
             </SeatsContainer>
 
             <CaptionContainer>
@@ -57,12 +65,13 @@ export default function SeatsPage() {
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={assentos.movie.posterURL} alt={assentos.movie.title} />
                 </div>
                 <div>
-                    <p>{f.title}</p>
-                    {weekday && hour && <p>{weekday} - {hour}</p> }
+                    <p>{assentos.movie.title}</p>
+                    <p>{assentos.day.weekday} - {assentos.name}</p>
                 </div>
+
             </FooterContainer>
 
         </PageContainer>

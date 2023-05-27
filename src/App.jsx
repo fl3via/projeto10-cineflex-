@@ -14,30 +14,21 @@ import { Link } from "react-router-dom"
 export default function App() {
     axios.defaults.headers.common['Authorization'] = 'OfGSkO23s0u6UIaFW8pow685';
 
-
-    const urlAssentos = 'https://mock-api.driven.com.br/api/v8/cineflex/showtimes/ID_DA_SESSAO/seats'
-
-
-
     return (
         <>
             <BrowserRouter>
                 <NavContainer>
                     <Link to="/">
-                    CINEFLEX
+                        CINEFLEX
                     </Link>
-                    
-                   </NavContainer>
 
-               
+                </NavContainer>
+
                 <Routes>
-                    <Route path="/" element={ <HomePage />} />
-                    <Route path="/assentos/:idSessao" element= { <SeatsPage /> } />
-                    <Route path="/sessoes/:idFilme" element= { <SessionsPage /> } />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/assentos/:idSessao" element={<SeatsPage />} />
+                    <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
                     <Route path="/sucesso" element={<SuccessPage />} />
-                   
-                   
-                 
                 </Routes>
 
             </BrowserRouter>

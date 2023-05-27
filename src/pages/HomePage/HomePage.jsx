@@ -23,10 +23,6 @@ export default function HomePage() {
         })
     }, [])
 
-    if (filmes === undefined) {
-        return <div>Carregando..</div>
-    }
-
     return (
         <PageContainer>
             Selecione o filme
