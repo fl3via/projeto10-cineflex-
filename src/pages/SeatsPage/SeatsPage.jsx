@@ -8,6 +8,8 @@ export default function SeatsPage() {
     const [assentos, setAssentos] = useState(undefined)
     const { idSessao } = useParams()
 
+    const [assentoSelecionado, setAssentoSelecionado] = useState([]);
+
     useEffect(() => {
 
         const urlAssentos = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
@@ -25,8 +27,24 @@ export default function SeatsPage() {
     }, [])
 
     if (assentos === undefined) {
-        return <div>Carregando</div>
+        return <div>Aguarde...</div>
     }
+
+    function statusDoAssento(seat) {
+        if (!seat.isAvailable) {
+            alert("Esse assento não está disponível");
+            return;
+        }
+
+        const isSelected = assentoSelecionado.some((s) => s.id === seat.id);
+        const updatedSeats = isSelected
+            ? assentoSelecionado.filter((s) => s.id !== seat.id)
+            : [...assentoSelecionado, seat];
+
+        setAssentoSelecionado(updatedSeats);
+    }
+
+
 
     return (
         <PageContainer>
@@ -34,21 +52,31 @@ export default function SeatsPage() {
 
             <SeatsContainer>
                 {assentos.seats.map((a) => (
-                    <SeatItem key={a.id}>{a.name}</SeatItem>
+                    <SeatItem
+                        key={a.id}
+                        onClick={() => statusDoAssento(a)}
+                        status={
+                            !a.isAvailable ? "unavailable" :
+                                assentoSelecionado.some((s) => s.id === a.id) ? "selected" :
+                                    "available"}>
+                        {a.name}
+                    </SeatItem>
                 ))}
+
+
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status={'selected'} />
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status={'available'} />
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status={'unavailable'} />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -121,16 +149,31 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
+  border: 1px solid ${(props) =>
+        props.status === "available"
+            ? "#7B8B99"
+            : props.status === "selected"
+                ? "#0E7D71"
+                : props.status === "unavailable"
+                    ? "#F7C52B"
+                    : undefined};
+background-color: ${(props) =>
+        props.status === "available"
+            ? "#C3CFD9"
+            : props.status === "selected"
+                ? "#1AAE9E"
+                : props.status === "unavailable"
+                    ? "#FBE192"
+                    : undefined};
+  height: 25px;
+  width: 25px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 3px;
 `
+
 const CaptionItem = styled.div`
     display: flex;
     flex-direction: column;
@@ -138,18 +181,33 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    font-family: 'Roboto';
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
+  border: 1px solid ${(props) =>
+        props.status === "available"
+            ? "#7B8B99"
+            : props.status === "selected"
+                ? "#0E7D71"
+                : props.status === "unavailable"
+                    ? "#F7C52B"
+                    : undefined};
+  background-color: ${(props) =>
+        props.status === "available"
+            ? "#C3CFD9"
+            : props.status === "selected"
+                ? "#1AAE9E"
+                : props.status === "unavailable"
+                    ? "#FBE192"
+                    : undefined};
+  height: 25px;
+  width: 25px;
+  border-radius: 25px;
+  font-family: 'Roboto';
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 3px;
 `
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;

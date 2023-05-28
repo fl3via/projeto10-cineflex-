@@ -24,7 +24,7 @@ export default function SessionsPage() {
 
 
     if (sessao === undefined) {
-        return <div>Carregando</div>
+        return <div>Aguarde...</div>
     }
 
 
