@@ -123,12 +123,12 @@ export default function SeatsPage() {
             <FormContainer >
                 <form onSubmit={reservarAssentos}>
                     <label>Nome do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} />
+                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} data-test="client-name" id="name" />
 
                     <label htmlFor="cpf"> CPF do Comprador:</label>
                     <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf"/>
 
-                    <button type="submit">Reservar Assento(s)</button>
+                    <button type="submit" data-test="book-seat-btn" >Reservar Assento(s)</button>
                 </form>
             </FormContainer>
 
