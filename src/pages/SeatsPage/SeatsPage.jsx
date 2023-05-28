@@ -1,14 +1,17 @@
 import styled from "styled-components"
 import axios from 'axios'
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function SeatsPage() {
     const [assentos, setAssentos] = useState(undefined)
     const { idSessao } = useParams()
-
+    const { cpf, setCpf } = useState('')
+    const { nome, setNome } = useState()
     const [assentoSelecionado, setAssentoSelecionado] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -44,7 +47,32 @@ export default function SeatsPage() {
         setAssentoSelecionado(updatedSeats);
     }
 
+    function reservarAssentos(event) {
+        event.proventDefault();
 
+        const nomeComprador = e.target.elements.nomeComprador.value;
+        const cpfComprador = e.target.elements.cpfComprador.value;
+
+        if (assentoSelecionado.length === 0) {
+            alert('Selecione um assento.')
+            return
+        }
+
+        const data = {
+            nomeComprador: nomeComprador,
+            cpfComprador: cpfComprador,
+            assentos: assentoSelecionado.map((assento) => assento.id)
+        }
+
+        axios
+            .post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', data)
+            .then((res) => {
+                navigate("/sucesso")
+            })
+            .catch((err) => {
+                alert('tente novamente')
+            })
+    }
 
     return (
         <PageContainer>
@@ -82,13 +110,15 @@ export default function SeatsPage() {
             </CaptionContainer>
 
             <FormContainer >
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+                <form onSubmit={reservarAssentos}>
+                    <label>Nome do Comprador:</label>
+                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} />
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                    <label> CPF do Comprador:</label>
+                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos} />
 
-                <button>Reservar Assento(s)</button>
+                    <button type="submit">Reservar Assento(s)</button>
+                </form>
             </FormContainer>
 
             <FooterContainer data-test="footer">
@@ -206,6 +236,7 @@ const SeatItem = styled.div`
   align-items: center;
   justify-content: center;
   margin: 5px 3px;
+  cursor: pointer;
 `
 
 const FooterContainer = styled.div`
