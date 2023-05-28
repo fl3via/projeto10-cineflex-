@@ -68,14 +68,12 @@ export default function SeatsPage() {
             
           promise.then((res) => {
                 const infoCliente = {
-                    nome: {
-                        nomeComprador,
-                        cpfComprador,
-                        assentos,
-                    },
+                    nome: nomeComprador,
+                    cpf: cpfComprador,
+                    assentos: assentoSelecionado,
                     movie: assentos.movie.title,
                     date: assentos.day.date,
-                    hour: assentos.name,
+                    hour: assentos.name
                 }
                 setAssentoSelecionado(infoCliente)
                 navigate("/sucesso")
@@ -119,8 +117,8 @@ export default function SeatsPage() {
                 </CaptionItem>
             </CaptionContainer>
 
-            <FormContainer >
-                <form onSubmit={reservarAssentos}>
+            <FormContainer onSubmit={reservarAssentos}>
+              
                     <label htmlFor="name">Nome do Comprador:</label>
                     <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} data-test="client-name" id="name"  value={nome}/>
 
@@ -128,7 +126,7 @@ export default function SeatsPage() {
                     <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf" value={cpf}/>
 
                     <button type="submit" data-test="book-seat-btn" >Reservar Assento(s)</button>
-                </form>
+               
             </FormContainer>
 
             <FooterContainer data-test="footer">
