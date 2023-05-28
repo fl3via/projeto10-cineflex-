@@ -48,7 +48,7 @@ export default function SeatsPage() {
     }
 
     function reservarAssentos(event) {
-        event.proventDefault();
+        event.preventDefault();
 
         const nomeComprador = e.target.elements.nomeComprador.value;
         const cpfComprador = e.target.elements.cpfComprador.value;
@@ -67,6 +67,17 @@ export default function SeatsPage() {
         axios
             .post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', data)
             .then((res) => {
+                const infoCliente = {
+                    nome: {
+                        nomeComprador,
+                        cpfComprador,
+                        assentos,
+                    },
+                    movie: assentos.movie.title,
+                    date: assentos.day.date,
+                    hour: assentos.name,
+                }
+                setAssentoSelecionado(infoCliente)
                 navigate("/sucesso")
             })
             .catch((err) => {
@@ -114,8 +125,8 @@ export default function SeatsPage() {
                     <label>Nome do Comprador:</label>
                     <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} />
 
-                    <label> CPF do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos} />
+                    <label htmlFor="cpf"> CPF do Comprador:</label>
+                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf"/>
 
                     <button type="submit">Reservar Assento(s)</button>
                 </form>
@@ -207,7 +218,8 @@ background-color: ${(props) =>
 const CaptionItem = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;+6
+    ,00,,,,,
     font-size: 12px;
 `
 const SeatItem = styled.div`

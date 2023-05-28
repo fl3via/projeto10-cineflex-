@@ -3,7 +3,6 @@ import HomePage from "./pages/HomePage/HomePage"
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
-import { useEffect } from "react"
 import { useState } from "react"
 import axios from 'axios';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -12,7 +11,8 @@ import { Link } from "react-router-dom"
 
 
 export default function App() {
-    axios.defaults.headers.common['Authorization'] = 'OfGSkO23s0u6UIaFW8pow685';
+    axios.defaults.headers.common['Authorization'] =  'OfGSkO23s0u6UIaFW8pow685';
+const {sucesso, setSucesso} = useState([])
 
     return (
         <>
@@ -27,8 +27,8 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/assentos/:idSessao" element={<SeatsPage />} />
-                    <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
-                    <Route path="/sucesso" element={<SuccessPage />} />
+                    <Route path="/sessoes/:idFilme" element={<SessionsPage sucesso={sucesso} setSucesso={setSucesso}  />} />
+                    <Route path="/sucesso" element={<SuccessPage  sucesso={sucesso} setSucesso={setSucesso}  />} />
                 </Routes>
 
             </BrowserRouter>
