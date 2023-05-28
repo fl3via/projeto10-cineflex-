@@ -52,7 +52,7 @@ export default function SeatsPage() {
 
             <SeatsContainer>
                 {assentos.seats.map((a) => (
-                    <SeatItem
+                    <SeatItem data-test="seat"
                         key={a.id}
                         onClick={() => statusDoAssento(a)}
                         status={
@@ -81,7 +81,7 @@ export default function SeatsPage() {
                 </CaptionItem>
             </CaptionContainer>
 
-            <FormContainer>
+            <FormContainer >
                 Nome do Comprador:
                 <input placeholder="Digite seu nome..." />
 
@@ -91,7 +91,7 @@ export default function SeatsPage() {
                 <button>Reservar Assento(s)</button>
             </FormContainer>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={assentos.movie.posterURL} alt={assentos.movie.title} />
                 </div>
@@ -127,7 +127,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;
