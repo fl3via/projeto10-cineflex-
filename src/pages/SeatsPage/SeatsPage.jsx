@@ -63,10 +63,10 @@ export default function SeatsPage() {
             cpfComprador: cpfComprador,
             assentos: assentoSelecionado.map((assento) => assento.id)
         }
-
-        axios
-            .post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', data)
-            .then((res) => {
+         const promise = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', data)
+        
+            
+          promise.then((res) => {
                 const infoCliente = {
                     nome: {
                         nomeComprador,
@@ -80,8 +80,7 @@ export default function SeatsPage() {
                 setAssentoSelecionado(infoCliente)
                 navigate("/sucesso")
             })
-            .catch((err) => {
-                alert('tente novamente')
+            promise.catch((err) => {
             })
     }
 
@@ -122,11 +121,11 @@ export default function SeatsPage() {
 
             <FormContainer >
                 <form onSubmit={reservarAssentos}>
-                    <label>Nome do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} data-test="client-name" id="name" />
+                    <label htmlFor="name">Nome do Comprador:</label>
+                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} data-test="client-name" id="name"  value={nome}/>
 
                     <label htmlFor="cpf"> CPF do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf"/>
+                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf" value={cpf}/>
 
                     <button type="submit" data-test="book-seat-btn" >Reservar Assento(s)</button>
                 </form>
