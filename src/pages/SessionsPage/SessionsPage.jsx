@@ -93,6 +93,7 @@ const ButtonsContainer = styled.div`
     a {
         text-decoration: none;
     }
+   
 `
 const FooterContainer = styled.div`
     width: 100%;

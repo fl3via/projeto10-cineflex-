@@ -5,13 +5,15 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
+
 export default function SeatsPage() {
     const [assentos, setAssentos] = useState(undefined)
     const { idSessao } = useParams()
     const { cpf, setCpf } = useState('')
-    const { nome, setNome } = useState()
+    const { nome, setNome } = useState('')
     const [assentoSelecionado, setAssentoSelecionado] = useState([]);
     const navigate = useNavigate()
+  
 
     useEffect(() => {
 
@@ -75,11 +77,14 @@ export default function SeatsPage() {
                     date: assentos.day.date,
                     hour: assentos.name
                 }
-                setAssentoSelecionado(infoCliente)
-                navigate("/sucesso")
+              
             })
             promise.catch((err) => {
             })
+    }
+
+    function sucesso() {
+        navigate('/sucesso')
     }
 
     return (
@@ -125,7 +130,7 @@ export default function SeatsPage() {
                     <label htmlFor="cpf"> CPF do Comprador:</label>
                     <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf" value={cpf}/>
 
-                    <button type="submit" data-test="book-seat-btn" >Reservar Assento(s)</button>
+                    <button type="submit" data-test="book-seat-btn" onClick={sucesso}>Reservar Assento(s)</button>
                
             </FormContainer>
 
@@ -165,7 +170,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.form`
+const FormContainer = styled.div`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;
@@ -215,8 +220,7 @@ background-color: ${(props) =>
 const CaptionItem = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;+6
-    ,00,,,,,
+    align-items: center;
     font-size: 12px;
 `
 const SeatItem = styled.div`

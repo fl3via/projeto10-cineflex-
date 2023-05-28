@@ -1,28 +1,41 @@
 import styled from "styled-components"
+import { useLocation } from "react-router-dom";
+import SeatsPage from "../SeatsPage/SeatsPage";
 
 export default function SuccessPage() {
+    const location = useLocation();
+   const searchParams = new URLSearchParams(location.search);
+    const infoCliente = location.state;
+  
+
+    const nome = searchParams.get('nome');
+    const cpf = searchParams.get('cpf');
+    const assentos = searchParams.getAll('assentos');
+    const movie = searchParams.get('movie');
+    const date = searchParams.get('date');
+    const hour = searchParams.get('hour');
 
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer>
+            <TextContainer data-test="movie-day" >
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{infoCliente.movie}</p>
+                <p data-test="showtime">{infoCliente.date} - {hour}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {infoCliente.assentos.map((assento, index) => (
+          <p key={index}>Assento {assento.id}</p>
+        ))}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {infoCliente.nome}</p>
+                <p>CPF: {infoCliente.cpf}</p>
             </TextContainer>
 
             <button>Voltar para Home</button>
