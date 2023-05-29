@@ -1,9 +1,8 @@
 import styled from "styled-components"
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
-export default function SuccessPage() {
-    const infoCliente = location.state;
+export default function SuccessPage({sucesso, setSucesso, data}) {
     const navigate = useNavigate()
 
     return (
@@ -12,24 +11,26 @@ export default function SuccessPage() {
 
             <TextContainer  data-test="movie-info" >
                 <strong><p>Filme e sessão</p></strong>
-                <p>{infoCliente.movie}</p>
-                <p data-test="showtime">{infoCliente.date} - {hour}</p>
+                <p>{sucesso.movie}</p>
+                <p data-test="showtime">{sucesso.date} - {hour}</p>
             </TextContainer>
 
             <TextContainer data-test="seats-info" >
                 <strong><p>Ingressos</p></strong>
-                {infoCliente.assentos.map((assento, index) => (
+                {sucesso.assentos.map((assento, index) => (
           <p key={index}>Assento {assento.id}</p>
         ))}
             </TextContainer>
 
             <TextContainer data-test="client-info">
                 <strong><p>Comprador</p></strong>
-                <p>Nome: {infoCliente.nome}</p>
-                <p>CPF: {infoCliente.cpf}</p>
+                <p>Nome: {sucesso.nome}</p>
+                <p>CPF: {sucesso.cpf}</p>
             </TextContainer>
 
+<Link to="/">
             <button  data-test="go-home-btn">Voltar para Home</button>
+            </Link>
         </PageContainer>
     )
 }
