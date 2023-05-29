@@ -12,7 +12,7 @@ export default function SeatsPage({ sucesso, setSucesso }) {
     const { nome, setNome } = useState('')
     const [assentoSelecionado, setAssentoSelecionado] = useState([]);
     const navigate = useNavigate()
-  
+
 
     useEffect(() => {
 
@@ -60,26 +60,28 @@ export default function SeatsPage({ sucesso, setSucesso }) {
         }
 
         const data = {
-            nomeComprador: nomeComprador,
+            name: nomeComprador,
             cpfComprador: cpfComprador,
-            assentos: assentoSelecionado.map((assento) => assento.id)
+            ids:[assentoSelecionado.map((assento) => assento.id)] 
         }
-         const promise = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', data)
-        
-            
-          promise.then((res) => {
-                const infoCliente = {
-                    nome: nomeComprador,
-                    cpf: cpfComprador,
-                    assentos: assentoSelecionado,
-                    movie: assentos.movie.title,
-                    date: assentos.day.date,
-                    hour: assentos.name
-                }
-                navigate("/sucesso")
-            })
-            promise.catch((err) => {
-            }) 
+console.log(data)
+
+        const promise = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', data)
+
+
+        promise.then((res) => {
+            const infoCliente = {
+                name: nomeComprador,
+                cpf: cpfComprador,
+                assento: assentoSelecionado,
+                movie: assentos.movie.title,
+                date: assentos.day.date,
+                hour: assentos.name
+            }
+            navigate("/sucesso")
+        })
+        promise.catch((err) => {
+        })
     }
 
     return (
@@ -118,15 +120,15 @@ export default function SeatsPage({ sucesso, setSucesso }) {
             </CaptionContainer>
 
             <FormContainer onSubmit={reservarAssentos}>
-              
-                    <label htmlFor="name">Nome do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" data-test="client-name" id="name"  value={nome} onChange={event => setNome(event.target.value)} />
 
-                    <label htmlFor="cpf"> CPF do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" id="cpf" data-test="client-cpf" value={cpf} onChange={event => setCpf(event.target.value)}  />
+                <label htmlFor="name">Nome do Comprador:</label>
+                <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" data-test="client-name" id="name" value={nome} onChange={event => setNome(event.target.value)} />
 
-                    <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
-               
+                <label htmlFor="cpf"> CPF do Comprador:</label>
+                <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" id="cpf" data-test="client-cpf" value={cpf} onChange={event => setCpf(event.target.value)} />
+
+                <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
+
             </FormContainer>
 
             <FooterContainer data-test="footer">
