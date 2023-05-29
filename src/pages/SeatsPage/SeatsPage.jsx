@@ -1,12 +1,11 @@
 import styled from "styled-components"
 import axios from 'axios'
-import { Navigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 
 
-export default function SeatsPage() {
+export default function SeatsPage({ sucesso, setSucesso }) {
     const [assentos, setAssentos] = useState(undefined)
     const { idSessao } = useParams()
     const { cpf, setCpf } = useState('')
@@ -52,8 +51,8 @@ export default function SeatsPage() {
     function reservarAssentos(event) {
         event.preventDefault();
 
-        const nomeComprador = e.target.elements.nomeComprador.value;
-        const cpfComprador = e.target.elements.cpfComprador.value;
+        const nomeComprador = event.target.elements.nomeComprador.value;
+        const cpfComprador = event.target.elements.cpfComprador.value;
 
         if (assentoSelecionado.length === 0) {
             alert('Selecione um assento.')
@@ -77,14 +76,10 @@ export default function SeatsPage() {
                     date: assentos.day.date,
                     hour: assentos.name
                 }
-              
+                navigate("/sucesso")
             })
             promise.catch((err) => {
-            })
-    }
-
-    function sucesso() {
-        navigate('/sucesso')
+            }) 
     }
 
     return (
@@ -125,12 +120,12 @@ export default function SeatsPage() {
             <FormContainer onSubmit={reservarAssentos}>
               
                     <label htmlFor="name">Nome do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" onChange={reservarAssentos} data-test="client-name" id="name"  value={nome}/>
+                    <input type="text" required placeholder="Digite seu nome..." name="nomeComprador" data-test="client-name" id="name"  value={nome} onChange={event => setNome(event.target.value)} />
 
                     <label htmlFor="cpf"> CPF do Comprador:</label>
-                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" onChange={reservarAssentos}  id="cpf" data-test="client-cpf" value={cpf}/>
+                    <input type="text" required placeholder="Digite seu CPF..." name="cpfComprador" id="cpf" data-test="client-cpf" value={cpf} onChange={event => setCpf(event.target.value)}  />
 
-                    <button type="submit" data-test="book-seat-btn" onClick={sucesso}>Reservar Assento(s)</button>
+                    <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
                
             </FormContainer>
 
@@ -170,7 +165,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;

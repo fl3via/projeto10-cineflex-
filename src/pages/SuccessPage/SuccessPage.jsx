@@ -1,44 +1,35 @@
 import styled from "styled-components"
-import { useLocation } from "react-router-dom";
-import SeatsPage from "../SeatsPage/SeatsPage";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 export default function SuccessPage() {
-    const location = useLocation();
-   const searchParams = new URLSearchParams(location.search);
     const infoCliente = location.state;
-  
-
-    const nome = searchParams.get('nome');
-    const cpf = searchParams.get('cpf');
-    const assentos = searchParams.getAll('assentos');
-    const movie = searchParams.get('movie');
-    const date = searchParams.get('date');
-    const hour = searchParams.get('hour');
+    const navigate = useNavigate()
 
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer data-test="movie-day" >
+            <TextContainer  data-test="movie-info" >
                 <strong><p>Filme e sessão</p></strong>
                 <p>{infoCliente.movie}</p>
                 <p data-test="showtime">{infoCliente.date} - {hour}</p>
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="seats-info" >
                 <strong><p>Ingressos</p></strong>
                 {infoCliente.assentos.map((assento, index) => (
           <p key={index}>Assento {assento.id}</p>
         ))}
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="client-info">
                 <strong><p>Comprador</p></strong>
                 <p>Nome: {infoCliente.nome}</p>
                 <p>CPF: {infoCliente.cpf}</p>
             </TextContainer>
 
-            <button>Voltar para Home</button>
+            <button  data-test="go-home-btn">Voltar para Home</button>
         </PageContainer>
     )
 }
