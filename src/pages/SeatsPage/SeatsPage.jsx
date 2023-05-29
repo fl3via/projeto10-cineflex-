@@ -8,8 +8,8 @@ import { useEffect } from "react"
 export default function SeatsPage({ sucesso, setSucesso }) {
     const [assentos, setAssentos] = useState(undefined)
     const { idSessao } = useParams()
-    const { cpf, setCpf } = useState('')
-    const { nome, setNome } = useState('')
+    const [ cpf, setCpf ] = useState('')
+    const [ nome, setNome ] = useState('')
     const [assentoSelecionado, setAssentoSelecionado] = useState([]);
     const navigate = useNavigate()
 
@@ -48,6 +48,7 @@ export default function SeatsPage({ sucesso, setSucesso }) {
         setAssentoSelecionado(updatedSeats);
     }
 
+
     function reservarAssentos(event) {
         event.preventDefault();
 
@@ -61,7 +62,7 @@ export default function SeatsPage({ sucesso, setSucesso }) {
 
         const data = {
             name: nomeComprador,
-            cpfComprador: cpfComprador,
+            cpf: cpfComprador,
             ids:[assentoSelecionado.map((assento) => assento.id)] 
         }
 console.log(data)
@@ -78,7 +79,8 @@ console.log(data)
                 date: assentos.day.date,
                 hour: assentos.name
             }
-            navigate("/sucesso")
+
+navigate("/sucesso")
         })
         promise.catch((err) => {
         })
